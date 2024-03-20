@@ -1,0 +1,4 @@
+##requirement.txt
+telegram
+configparser
+redis
