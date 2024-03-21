@@ -1,6 +1,6 @@
 ##chatbot.py
 from telegram import Update
-from telegram.ext import (Updater, MessageHandler, Filters, CallbackContext)
+from telegram.ext import (Updater,CommandHandler, MessageHandler, Filters, CallbackContext)
 
 import configparser
 import logging
@@ -14,7 +14,7 @@ def main():
     updater = Updater(token=(config['TELEGRAM']['ACCESS_TOKEN']), use_context=True)
     dispatcher = updater.dispatcher
     global redis1
-    redis1 = redis.Redis(host=(config['REDIS']['HOST'])),
+    redis1 = redis.Redis(host=(config['REDIS']['HOST']),
 	 password=(config['REDIS']['PASSWORD']),
 	 port=(config['REDIS']['REDISPORT']))
 
@@ -27,7 +27,7 @@ def main():
     dispatcher.add_handler(echo_handler)
 	#on different commands - answer in Telegram
 	dispathcer.add_handler(CommandHandler("add",add))
-	dispathcer.add_handler(CommandHandler("help",help_command))
+	dispathcer.add_handler(CommandHandler("help", help_command))
 	#To start the bot:
     updater.start_polling()
     updater.idle()
