@@ -15,37 +15,38 @@ def main():
     dispatcher = updater.dispatcher
     global redis1
     redis1 = redis.Redis(host=(config['REDIS']['HOST']),
-	 password=(config['REDIS']['PASSWORD']),
-	 port=(config['REDIS']['REDISPORT']))
+     password=(config['REDIS']['PASSWORD']),
+     port=(config['REDIS']['REDISPORT']))
 
-	#you can set this logging module, so you will know when
-	#and why things do not as expected Meanwhile, update your config.ini as:
+    #you can set this logging module, so you will know when
+    #and why things do not as expected Meanwhile, update your config.ini as:
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
-	#register a dispatcher to handle message: here we register an echo dispatchr
+    #register a dispatcher to handle message: here we register an echo dispatchr
     echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
     dispatcher.add_handler(echo_handler)
-	#on different commands - answer in Telegram
-	dispathcer.add_handler(CommandHandler("add",add))
-	dispathcer.add_handler(CommandHandler("help", help_command))
+    #on different commands - answer in Telegram
+    dispathcer.add_handler(CommandHandler("add",add))
+    dispathcer.add_handler(CommandHandler("help", help_command))
 
-	#To start the bot:
+    #To start the bot:
     updater.start_polling()
     updater.idle()
+    print('test')
 
 def echo(update, context):
     reply_message = update.message.text.upper()
     logging.info("Update: " + str(update))
     logging.info("context: " + str(context))
     context.bot.send_message(chat_id=update.effective_chat.id, text= reply_message)
-	#Define a few command handlers. These usually take the two arguments update and
-	#context. Error handlers also receive the raised TelegramError object in error.
+    #Define a few command handlers. These usually take the two arguments update and
+    #context. Error handlers also receive the raised TelegramError object in error.
 
 def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_text('Helping you helping you.')
 def add(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /add is issued."""
-	try:
+    try:
         global redis1
         logging.info(context.args[0])
         msg = context.args[0]   # /add keyword <-- this should store the keyword
