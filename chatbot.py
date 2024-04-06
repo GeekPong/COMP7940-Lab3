@@ -33,7 +33,7 @@ def main():
     #To start the bot:
     updater.start_polling()
     updater.idle()
-    #print('test')Print terminal log
+    
 
 def echo(update, context):
     reply_message = update.message.text.upper()
@@ -61,4 +61,5 @@ def echo(update, context):
 
 if __name__ == '__main__':
     main()
+    #print('test')Print terminal log
 
