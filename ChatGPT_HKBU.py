@@ -11,7 +11,7 @@ class HKBU_ChatGPT():
         #     self.config = config_path
 
     def submit(self,message):
-        # print(self.config['CHATGPT']['MODELNAME'])
+        print(self.config['CHATGPT']['MODELNAME'])
         conversation = [{"role": "user", "content": message}]
         url = (self.config['CHATGPT']['BASICURL']) + "/deployments/" + (self.config['CHATGPT']['MODELNAME']) + "/chat/completions/?api-version=" + (self.config['CHATGPT']['APIVERSION'])
         headers = { 'Content-Type': 'application/json', 'api-key': (self.config['CHATGPT']['ACCESS_TOKEN']) }

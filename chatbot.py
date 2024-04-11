@@ -1,11 +1,18 @@
 #chatbot.py
 #import telegram
-#
 from telegram import Update
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
 import configparser
 import logging
 import redis
+
+from ChatGPT_HKBU import HKBU_ChatGPT
+def equiped_chatgpt(update, context):
+    global chatgpt
+    reply_message = chatgpt.submit(update.message.text)
+    logging.info("Update: " + str(update))
+    logging.info("context: " + str(context))
+    context.bot.send_message(chat_id=update.effective_chat.id, text=reply_message)
 
 #global redis1
 def main():
@@ -23,8 +30,18 @@ def main():
     #and why things do not as expected Meanwhile, update your config.ini as:
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
     #register a dispatcher to handle message: here we register an echo dispatchr
-    echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
-    dispatcher.add_handler(echo_handler)
+    #echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    #dispatcher.add_handler(echo_handler)
+    
+    # register a dispatcher to handle message: here we register an echo dispatcher
+    # echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    # dispatcher.add_handler(echo_handler)
+    # dispatcher for chatgpt
+    global chatgpt
+    chatgpt = HKBU_ChatGPT('./config.ini')
+    chatgpt_handler = MessageHandler(Filters.text & (~Filters.command),
+                    equiped_chatgpt)
+    dispatcher.add_handler(chatgpt_handler)
     
     #on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("add",add))
