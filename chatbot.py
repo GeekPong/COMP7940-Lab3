@@ -1,5 +1,5 @@
 #chatbot.py
-#import telegram
+import telegram
 from telegram import Update
 from telegram.ext import (Updater, CommandHandler, MessageHandler, Filters, CallbackContext)
 import configparser
@@ -46,12 +46,12 @@ def main():
     #on different commands - answer in Telegram
     dispatcher.add_handler(CommandHandler("add",add))
     dispatcher.add_handler(CommandHandler("help", help_command))
-
+    dispatcher.add_handler(CommandHandler("hello", kevin_command))#Corresponding to line 68.
+    
     #To start the bot:
     updater.start_polling()
     updater.idle()
     
-
 def echo(update, context):
     reply_message = update.message.text.upper()
     logging.info("Update: " + str(update))
@@ -63,6 +63,11 @@ def echo(update, context):
 def help_command(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /help is issued."""
     update.message.reply_text('Helping you helping you.')
+
+def kevin_command(update: Update, context: CallbackContext) -> None:
+    """Send a message when the command /hello Kevin"""
+    update.message.reply_text('Good day, Kevin!')
+
 def add(update: Update, context: CallbackContext) -> None:
     """Send a message when the command /add is issued."""
     try:

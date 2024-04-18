@@ -1,4 +1,4 @@
-##requirement.txt
-telegram
+#requirement.txt
+telegram-bot==13.7
 configparser
 redis
